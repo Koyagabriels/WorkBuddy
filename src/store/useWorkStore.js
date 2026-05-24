@@ -3,10 +3,10 @@ import { persist } from 'zustand/middleware';
 
 export const useWorkStore = create(persist((set) => ({
   shifts: [],
-    addShift: (shift) => set((state) => ({ 
-        shifts: [...state.shifts, { ...shift, id: Date.now() }] 
-          })),
-          }), {
-            name: 'workbuddy-storage',
-            }));
-           
+  addShift: (shift) => set((state) => ({ 
+    shifts: [...state.shifts, { ...shift, id: Date.now() }] 
+  })),
+  // Add other actions like removeShift, clearShifts here
+}), {
+  name: 'workbuddy-storage', // This ensures data survives refreshes
+}));
