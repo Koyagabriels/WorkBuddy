@@ -7,25 +7,33 @@ export default function App() {
   const organisations = useWorkStore((state) => state.organisations);
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold">WorkBuddy</h1>
+    <div className="p-4 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-6">WorkBuddy</h1>
       
+      {/* Button to trigger Organisation Modal */}
       <button 
         onClick={() => setIsModalOpen(true)}
-        className="bg-blue-500 text-white p-2 rounded mt-4"
+        className="w-full bg-indigo-600 text-white p-3 rounded-lg font-semibold"
       >
         + Add Organisation
       </button>
 
-      <div className="mt-6">
-        <h2 className="font-semibold">My Organisations:</h2>
-        <ul>
+      {/* List of Organisations */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold mb-3">My Organisations</h2>
+        <div className="grid gap-3">
           {organisations.map((org) => (
-            <li key={org.id}>{org.name}</li>
+            <div key={org.id} className="p-4 border border-gray-200 rounded-lg shadow-sm bg-white">
+              <p className="font-bold text-lg">{org.name}</p>
+              <p className="text-sm text-gray-600">
+                Rate: £{org.defaultRate}/hr | Frequency: {org.payrollFrequency}
+              </p>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
+      {/* The Modal Component */}
       {isModalOpen && (
         <OrganisationModal onClose={() => setIsModalOpen(false)} />
       )}
