@@ -45,3 +45,21 @@ export default function App() {
     </div>
   );
 }
+
+// Inside App.jsx, add this below the "My Organisations" list:
+import { getAggregatedData } from './controllers/reportsController';
+
+// ... inside your component:
+const aggregatedShifts = getAggregatedData(shifts, organisations);
+
+// ... then render them:
+<div className="mt-8">
+  <h2 className="text-lg font-semibold">Recent Shifts</h2>
+  {aggregatedShifts.map((s) => (
+    <div key={s.id} className="p-4 border mt-2 rounded">
+      <p className="font-bold">{s.organisationName}</p>
+      <p>{s.hours} hours | Earnings: £{s.grossPay.toFixed(2)}</p>
+    </div>
+  ))}
+</div>
+
