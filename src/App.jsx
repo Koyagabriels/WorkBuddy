@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { OrganisationModal } from './components/OrganisationModal';
-import { ShiftModal } from './components/ShiftModal'; // Import the new modal
+import { ShiftModal } from './components/ShiftModal';
 import { useWorkStore } from './store/useWorkStore';
+import { getAggregatedData } from './controllers/reportsController'; // Correct import location
 
 export default function App() {
   const [isOrgModalOpen, setIsOrgModalOpen] = useState(false);
-  const [isShiftModalOpen, setIsShiftModalOpen] = useState(false); // New state
+  const [isShiftModalOpen, setIsShiftModalOpen] = useState(false);
   
   const { organisations, shifts } = useWorkStore();
+  
+  // Logic inside the component
+  const aggregatedShifts = getAggregatedData(shifts, organisations);
 
   return (
     <div className="p-4 max-w-md mx-auto">
@@ -33,8 +37,19 @@ export default function App() {
       <div className="mt-8">
         <h2 className="text-lg font-semibold mb-3">My Organisations</h2>
         {organisations.map((org) => (
-          <div key={org.id} className="p-4 border border-gray-200 rounded-lg shadow-sm bg-white mb-2">
+          <div key={org.id} className="p-4 border rounded-lg bg-white mb-2">
             <p className="font-bold">{org.name}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Recent Shifts List */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold">Recent Shifts</h2>
+        {aggregatedShifts.map((s) => (
+          <div key={s.id} className="p-4 border mt-2 rounded bg-gray-50">
+            <p className="font-bold">{s.organisationName}</p>
+            <p>{s.hours.toFixed(1)} hours | Earnings: £{s.grossPay.toFixed(2)}</p>
           </div>
         ))}
       </div>
@@ -45,21 +60,4 @@ export default function App() {
     </div>
   );
 }
-
-// Inside App.jsx, add this below the "My Organisations" list:
-import { getAggregatedData } from './controllers/reportsController';
-
-// ... inside your component:
-const aggregatedShifts = getAggregatedData(shifts, organisations);
-
-// ... then render them:
-<div className="mt-8">
-  <h2 className="text-lg font-semibold">Recent Shifts</h2>
-  {aggregatedShifts.map((s) => (
-    <div key={s.id} className="p-4 border mt-2 rounded">
-      <p className="font-bold">{s.organisationName}</p>
-      <p>{s.hours} hours | Earnings: £{s.grossPay.toFixed(2)}</p>
-    </div>
-  ))}
-</div>
 
