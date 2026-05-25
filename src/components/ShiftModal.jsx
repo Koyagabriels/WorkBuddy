@@ -2,11 +2,21 @@ import React, { useState } from 'react';
 import { useWorkStore } from '../store/useWorkStore';
 
 export const ShiftModal = ({ onClose }) => {
-  const [formData, setFormData] = useState({ date: '', startTime: '', endTime: '', orgId: '' });
+  const [formData, setFormData] = useState({ 
+    date: '', 
+    startTime: '', 
+    endTime: '', 
+    orgId: '' 
+  });
   const { addShift, organisations } = useWorkStore();
 
   const handleSubmit = () => {
-    addShift({ ...formData, organisationId: formData.orgId });
+    // Basic validation to ensure an org is selected
+    if (!formData.orgId) {
+      alert("Please select an organisation");
+      return;
+    }
+    addShift(formData);
     onClose();
   };
 
@@ -30,6 +40,19 @@ export const ShiftModal = ({ onClose }) => {
           className="w-full border p-2 mb-3 rounded"
           onChange={(e) => setFormData({...formData, date: e.target.value})} 
         />
+
+        <div className="flex gap-2">
+          <input 
+            type="time" 
+            className="w-full border p-2 mb-3 rounded"
+            onChange={(e) => setFormData({...formData, startTime: e.target.value})} 
+          />
+          <input 
+            type="time" 
+            className="w-full border p-2 mb-3 rounded"
+            onChange={(e) => setFormData({...formData, endTime: e.target.value})} 
+          />
+        </div>
         
         <div className="flex gap-2">
           <button onClick={onClose} className="flex-1 p-2 border rounded">Cancel</button>
