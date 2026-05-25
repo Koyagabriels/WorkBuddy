@@ -1,15 +1,3 @@
-// Add this inside your App() function, before the return statement:
-const totalEarnings = aggregatedShifts.reduce((sum, s) => sum + s.grossPay, 0);
-const totalHours = aggregatedShifts.reduce((sum, s) => sum + s.hours, 0);
-
-// Then, in your JSX return, add this above the "My Organisations" list:
-<div className="bg-indigo-900 text-white p-6 rounded-xl shadow-lg mb-6">
-  <p className="text-indigo-200 text-sm uppercase tracking-wider">Total Earnings</p>
-  <h2 className="text-4xl font-bold">£{totalEarnings.toFixed(2)}</h2>
-  <div className="flex gap-4 mt-4 text-sm text-indigo-200">
-    <p>Hours Worked: <span className="text-white font-semibold">{totalHours.toFixed(1)}</span></p>
-  </div>
-</div>
 
 
 import React, { useState } from 'react';
